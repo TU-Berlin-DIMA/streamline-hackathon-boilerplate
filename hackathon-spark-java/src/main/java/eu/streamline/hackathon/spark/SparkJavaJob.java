@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
  * @author behrouz
  */
 public class SparkJavaJob {
-    private static final Logger LOG = LoggerFactory.getLogger(SparkJavaJob.class);
 
     /**
      * Micro Batch Duration
@@ -31,8 +30,10 @@ public class SparkJavaJob {
     public static void main(String[] args) throws InterruptedException {
 
         SparkConf conf = new SparkConf()
-                .setMaster("local[2]")
                 .setAppName("GDELT Spark Java Analyzer");
+        String masterURL = conf.get("spark.master", "local[2]");
+        conf.setMaster(masterURL);
+
         JavaStreamingContext jssc = new JavaStreamingContext(conf, DEFAULT_MICRO_BATCH_DURATION);
 
         String pathToGDELT = args[0];
