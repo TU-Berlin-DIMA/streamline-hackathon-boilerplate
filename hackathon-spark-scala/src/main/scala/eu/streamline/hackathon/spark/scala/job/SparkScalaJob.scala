@@ -1,6 +1,6 @@
 package eu.streamline.hackathon.spark.scala.job
 
-import eu.streamline.hackathon.spark.operations.GDELTInputReceiver
+import eu.streamline.hackathon.spark.scala.operations.GDELTInputReceiver
 import org.apache.flink.api.java.utils.ParameterTool
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.{Milliseconds, StreamingContext}
@@ -25,12 +25,11 @@ object SparkScalaJob {
       .setAppName("GDELT Spark Scala Analyzer")
     val ssc = new StreamingContext(conf, DEFAULT_BATCH_DURATION)
 
-    val parameters = ParameterTool.fromArgs(args)
-    val pathToGDELT = parameters.get("path")
+    val pathToGDELT = args(0)
 
     val source = ssc.receiverStream(new GDELTInputReceiver(pathToGDELT))
 
-    source.foreachRDD(a => println(a.count()))
+    source.print()
 
     ssc.start()
     ssc.awaitTermination()

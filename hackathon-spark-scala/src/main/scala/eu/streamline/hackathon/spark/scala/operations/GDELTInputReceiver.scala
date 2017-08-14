@@ -1,4 +1,4 @@
-package eu.streamline.hackathon.spark.operations
+package eu.streamline.hackathon.spark.scala.operations
 
 import java.io.{BufferedReader, InputStreamReader}
 import java.nio.charset.StandardCharsets
