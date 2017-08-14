@@ -267,8 +267,8 @@
 		<module>hackathon-common</module>
 		<module>hackathon-flink-java</module>
 		<module>hackathon-flink-scala</module>
-		<!--<module>hackathon-spark-java</module>-->
-		<!--<module>hackathon-spark-scala</module> -->
+        <module>hackathon-spark-scala</module>
+        <!--<module>hackathon-spark-java</module>-->
 	</modules>
 
 
