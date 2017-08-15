@@ -48,16 +48,13 @@ public class GDELTParser implements Serializable {
 
 		fields = new ArrayList<>();
 
-		// Actor1, Actor2
-		fields.add(new Field("cameo", Integer.class));
+		fields.add(new Field("globalEventID", Integer.class));
 		fields.add(new Field("day", Date.class));
 		fields.add(new Field("month", Integer.class));
 		fields.add(new Field("year", Integer.class));
 		fields.add(new Field("fracDate", Double.class));
 		fields.add(new Field("actor1Code", generateCodes()));
 		fields.add(new Field("actor2Code", generateCodes()));
-
-		// Common
 		fields.add(new Field("isRoot", Boolean.class));
 		fields.add(new Field("eventCode", String.class));
 		fields.add(new Field("eventBaseCode", String.class));

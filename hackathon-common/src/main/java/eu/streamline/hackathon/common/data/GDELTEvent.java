@@ -7,7 +7,7 @@ public class GDELTEvent implements Serializable {
 
 	// this code is automatic generated - DO NOT EDIT IT!
 
-	public Integer cameo;
+	public Integer globalEventID;
 	public Date day;
 	public Integer month;
 	public Integer year;
@@ -69,7 +69,7 @@ public class GDELTEvent implements Serializable {
 	@Override
 	public String toString() {
 		return "GDELTEvent{" +
-				"cameo=" + cameo +
+				"globalEventID=" + globalEventID +
 				", day=" + day +
 				", month=" + month +
 				", year=" + year +
