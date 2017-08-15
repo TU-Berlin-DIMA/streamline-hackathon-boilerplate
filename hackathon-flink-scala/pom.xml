@@ -130,7 +130,7 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <program-class>eu.streamline.hackathon.flink.job.FlinkJavaJob</program-class>
+                            <program-class>eu.streamline.hackathon.flink.scala.job.FlinkScalaJob</program-class>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -239,7 +239,7 @@
 
 							<transformers>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>eu.streamline.hackathon.flink.job.FlinkJavaJob</mainClass>
+									<mainClass>eu.streamline.hackathon.flink.scala.job.FlinkScalaJob</mainClass>
 								</transformer>
 							</transformers>
 
