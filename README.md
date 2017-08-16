@@ -50,16 +50,16 @@ Then you can run those long-running jobs.
 ```
 # Java Job
 /path/to/spark/root/bin/spark-submit \
---master spark://berlin-235.b.dfki.de:7077 \
+--master spark://<host>:<port> \
 --class eu.streamline.hackathon.spark.job.SparkJavaJob hackathon-spark-java/target/hackathon-spark-java-0.1-SNAPSHOT-jar-with-dependencies.jar \
 --path /path/to/data/180-days.csv\
 --micro-batch-duration 500
 
 # Scala Job
 /path/to/spark/root/bin/spark-submit \
---master spark://berlin-235.b.dfki.de:7077 \
+--master spark://<host>:<port> \
 --class eu.streamline.hackathon.spark.scala.job.SparkScalaJob hackathon-spark-scala/target/hackathon-spark-scala-0.1-SNAPSHOT-jar-with-dependencies.jar \
---path ~/Documents/work/github/streamline-hackathon-boilerplate/data/180-days.csv \
+--path /path/to/data/180-days.csv \
 --micro-batch-duration 500
 ```
 
