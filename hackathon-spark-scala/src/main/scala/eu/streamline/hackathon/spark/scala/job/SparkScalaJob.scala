@@ -8,8 +8,6 @@ import org.apache.spark.streaming.{Duration, Milliseconds, StreamingContext}
 
 object SparkScalaJob {
 
-  val DEFAULT_BATCH_DURATION = Milliseconds(500)
-
   def main(args: Array[String]): Unit = {
 
     val params = ParameterTool.fromArgs(args)

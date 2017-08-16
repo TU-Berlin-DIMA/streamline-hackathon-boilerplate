@@ -13,7 +13,6 @@ import org.apache.spark.streaming.api.java.JavaStreamingContext;
  */
 public class SparkJavaJob {
 
-
     public static void main(String[] args) throws InterruptedException {
 
         ParameterTool params = ParameterTool.fromArgs(args);
