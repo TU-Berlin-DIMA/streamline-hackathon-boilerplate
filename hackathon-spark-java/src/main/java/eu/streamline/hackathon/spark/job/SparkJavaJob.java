@@ -5,11 +5,8 @@ import eu.streamline.hackathon.spark.scala.operations.GDELTInputReceiver;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.spark.SparkConf;
 import org.apache.spark.streaming.Duration;
-import org.apache.spark.streaming.Milliseconds;
 import org.apache.spark.streaming.api.java.JavaReceiverInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author behrouz

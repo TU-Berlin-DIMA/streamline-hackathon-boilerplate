@@ -51,14 +51,16 @@ Then you can run those long-running jobs.
 # Java Job
 /path/to/spark/root/bin/spark-submit \
 --master spark://<host>:<port> \
---class eu.streamline.hackathon.spark.job.SparkJavaJob hackathon-spark-java/target/hackathon-spark-java-0.1-SNAPSHOT-jar-with-dependencies.jar \
---path /path/to/data/180-days.csv\
+--class eu.streamline.hackathon.spark.job.SparkJavaJob \
+ hackathon-spark-java/target/hackathon-spark-java-0.1-SNAPSHOT.jar \
+--path /path/to/data/180-days.csv \
 --micro-batch-duration 500
 
 # Scala Job
 /path/to/spark/root/bin/spark-submit \
 --master spark://<host>:<port> \
---class eu.streamline.hackathon.spark.scala.job.SparkScalaJob hackathon-spark-scala/target/hackathon-spark-scala-0.1-SNAPSHOT-jar-with-dependencies.jar \
+--class eu.streamline.hackathon.spark.scala.job.SparkScalaJob \
+hackathon-spark-scala/target/hackathon-spark-scala-0.1-SNAPSHOT.jar \
 --path /path/to/data/180-days.csv \
 --micro-batch-duration 500
 ```

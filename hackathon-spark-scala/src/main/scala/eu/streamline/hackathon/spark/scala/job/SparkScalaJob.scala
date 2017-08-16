@@ -26,7 +26,7 @@ object SparkScalaJob {
 
     val source = ssc.receiverStream(new GDELTInputReceiver(pathToGDELT))
 
-    source.count().print()
+    source.print()
 
     ssc.start()
     ssc.awaitTermination()
