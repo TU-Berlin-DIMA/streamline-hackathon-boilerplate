@@ -22,7 +22,7 @@ public class GDELTEvent implements Serializable {
 	public Integer numSources;
 	public Integer numArticles;
 	public Double avgTone;
-	public Integer dateAdded;
+	public Date dateAdded;
 	public String sourceUrl;
 	public String actor1Code_code;
 	public String actor2Code_code;

@@ -68,7 +68,7 @@ public class GDELTParser implements Serializable {
 		fields.add(new Field("actor1Geo", generateGeo()));
 		fields.add(new Field("actor2Geo", generateGeo()));
 		fields.add(new Field("eventGeo", generateGeo()));
-		fields.add(new Field("dateAdded", Integer.class));
+		fields.add(new Field("dateAdded", Date.class));
 		fields.add(new Field("sourceUrl", String.class));
 
 	}
