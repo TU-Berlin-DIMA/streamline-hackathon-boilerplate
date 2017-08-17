@@ -19,6 +19,7 @@ class GDELTInputReceiver(path: String)
     new Thread("GDELT File Receiver") {
 
       override def run() {
+        println("HELLOOOOO")
         receive()
       }
     }.start()
