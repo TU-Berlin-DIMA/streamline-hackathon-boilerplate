@@ -22,7 +22,7 @@ object SparkScalaJob {
     val country = params.get("country", "USA")
 
     val conf = new SparkConf().setAppName("GDELT Spark Scala Analyzer")
-    val masterURL = conf.get("spark.master", "local[2]")
+    val masterURL = conf.get("spark.master", "local[*]")
     conf.setMaster(masterURL)
 
     val ssc = new StreamingContext(conf, Duration(duration))
