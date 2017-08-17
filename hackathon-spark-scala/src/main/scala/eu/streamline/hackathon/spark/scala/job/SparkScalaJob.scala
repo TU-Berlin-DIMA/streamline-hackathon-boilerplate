@@ -37,7 +37,7 @@ object SparkScalaJob {
 
     val source = ssc.receiverStream(new GDELTInputReceiver(pathToGDELT))
     source
-      .filter(event => event.actor1Code_countryCode == country)
+      .filter(event => event.actor1Code_countryCode != null & event.actor1Code_countryCode == country)
       .map(
         event => {
           val cal = Calendar.getInstance()
