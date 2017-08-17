@@ -12,7 +12,7 @@ import org.apache.spark.streaming.receiver.Receiver
 
 
 class GDELTInputReceiver(path: String)
-  extends Receiver[GDELTEvent](StorageLevel.MEMORY_AND_DISK_2) {
+  extends Receiver[GDELTEvent](StorageLevel.DISK_ONLY_2) {
 
   override def onStart(): Unit = {
     // Start the thread that receives data over a connection
