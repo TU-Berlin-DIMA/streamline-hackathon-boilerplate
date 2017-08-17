@@ -15,10 +15,10 @@ object SparkScalaJob {
 
     val params = ParameterTool.fromArgs(args)
     // path to the file
-    val pathToGDELT = params.get("path", "/Users/bede01/Documents/work/github/streamline-hackathon-boilerplate/data/180-days.csv")
+    val pathToGDELT = params.get("path")
     // micro-batch-duration in milliseconds
     val duration = params.getLong("micro-batch-duration", 1000)
-    // country to calculate the average tone of
+    // country for which to calculate the sum of average tone
     val country = params.get("country", "USA")
 
     val conf = new SparkConf().setAppName("GDELT Spark Scala Analyzer")
@@ -41,17 +41,13 @@ object SparkScalaJob {
       .map(
         event => {
           val cal = Calendar.getInstance()
-          cal.setTime(event.day)
-          cal.set(Calendar.HOUR_OF_DAY, 0)
-          cal.clear(Calendar.MINUTE)
-          cal.clear(Calendar.SECOND)
-          cal.clear(Calendar.MILLISECOND)
+          cal.setTime(event.dateAdded)
           cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
 
           (cal.getTime, event.avgTone.toDouble)
         }
       )
-      .reduceByKey((t1, t2) => (t1 + t2) / 2.0)
+      .reduceByKey((t1, t2) => t1 + t2)
       .mapWithState(StateSpec.function(mappingFunc))
       .map(event => {
         val dateFormat = new SimpleDateFormat("yyyy-MM-dd")
