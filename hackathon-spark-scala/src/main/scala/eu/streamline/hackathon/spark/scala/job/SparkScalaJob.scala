@@ -16,6 +16,7 @@ object SparkScalaJob {
     val params = ParameterTool.fromArgs(args)
     val pathToGDELT = params.get("path")
     val duration = params.getLong("micro-batch-duration", 1000)
+    val windowSize = params.getLong("window-size", 5000)
     val country = params.get("country", "USA")
 
     val conf = new SparkConf().setAppName("Spark Scala GDELT Analyzer")
@@ -23,14 +24,6 @@ object SparkScalaJob {
     conf.setMaster(masterURL)
 
     val ssc = new StreamingContext(conf, Duration(duration))
-    ssc.checkpoint("checkpoint/")
-
-    val mappingFunc = (weekOfYear: Date, avgTone: Option[Double], state: State[Double]) => {
-      val avg = (avgTone.getOrElse(0.0) + state.getOption.getOrElse(0.0)) / 2.0
-      val output = (weekOfYear, avg)
-      state.update(avg)
-      output
-    }
 
     val source = ssc.receiverStream(new GDELTInputReceiver(pathToGDELT))
     source
@@ -44,8 +37,7 @@ object SparkScalaJob {
           (cal.getTime, event.avgTone.toDouble)
         }
       )
-      .reduceByKey((t1, t2) => t1 + t2)
-      .mapWithState(StateSpec.function(mappingFunc))
+      .reduceByKeyAndWindow((t1, t2) => t1 + t2, Duration(windowSize))
       .map(event => {
         val dateFormat = new SimpleDateFormat("yyyy-MM-dd")
         s"Country($country), Week(${dateFormat.format(event._1)}), AvgTone(${event._2}))"

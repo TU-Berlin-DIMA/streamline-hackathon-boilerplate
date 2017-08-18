@@ -32,6 +32,7 @@ public class SparkJavaJob {
         ParameterTool params = ParameterTool.fromArgs(args);
         final String pathToGDELT = params.get("path");
         final Long duration = params.getLong("micro-batch-duration", 1000);
+        final Long windowSize = params.getLong("window-size", 5000);
         final String country = params.get("country", "USA");
 
         SparkConf conf = new SparkConf().setAppName("Spark Java GDELT Analyzer");
@@ -39,21 +40,7 @@ public class SparkJavaJob {
         conf.setMaster(masterURL);
 
         JavaStreamingContext jssc = new JavaStreamingContext(conf, new Duration(duration));
-        // checkpoint for storing the state
-        jssc.checkpoint("checkpoint/");
 
-        // function to store intermediate values in the state
-        // it is called in the mapWithState function of DStream
-        Function3<Date, Optional<Double>, State<Double>, Tuple2<Date, Double>> mappingFunc =
-                new Function3<Date, Optional<Double>, State<Double>, Tuple2<Date, Double>>() {
-                    @Override
-                    public Tuple2<Date, Double> call(Date weekOfYear, Optional<Double> avgTone, State<Double> state) throws Exception {
-                        Double sum = avgTone.orElse(0.0) + (state.exists() ? state.get() : 0.0);
-                        Tuple2<Date, Double> output = new Tuple2<>(weekOfYear, sum);
-                        state.update(sum);
-                        return output;
-                    }
-                };
 
         jssc
                 .receiverStream(new GDELTInputReceiver(pathToGDELT))
@@ -72,13 +59,12 @@ public class SparkJavaJob {
                         return new Tuple2<>(cal.getTime(), gdeltEvent.avgTone);
                     }
                 })
-                .reduceByKey(new Function2<Double, Double, Double>() {
+                .reduceByKeyAndWindow(new Function2<Double, Double, Double>() {
                     @Override
                     public Double call(Double one, Double two) throws Exception {
                         return one + two;
                     }
-                })
-                .mapWithState(StateSpec.function(mappingFunc))
+                }, new Duration(windowSize))
                 .map(new Function<Tuple2<Date, Double>, String>() {
                     @Override
                     public String call(Tuple2<Date, Double> event) throws Exception {
