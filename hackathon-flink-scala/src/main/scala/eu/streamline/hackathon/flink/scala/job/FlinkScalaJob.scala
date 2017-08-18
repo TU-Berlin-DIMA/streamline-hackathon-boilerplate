@@ -2,17 +2,15 @@ package eu.streamline.hackathon.flink.scala.job
 
 import java.util.Date
 
-import eu.streamline.hackathon.flink.operations.GDELTInputFormat
 import eu.streamline.hackathon.common.data.GDELTEvent
+import eu.streamline.hackathon.flink.operations.GDELTInputFormat
 import org.apache.flink.api.common.functions.FoldFunction
 import org.apache.flink.api.java.utils.ParameterTool
 import org.apache.flink.core.fs.Path
 import org.apache.flink.streaming.api.TimeCharacteristic
-import org.apache.flink.streaming.api.functions.AssignerWithPunctuatedWatermarks
 import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.api.scala.function.WindowFunction
-import org.apache.flink.streaming.api.watermark.Watermark
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows
 import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow
@@ -24,6 +22,7 @@ object FlinkScalaJob {
 
     val parameters = ParameterTool.fromArgs(args)
     val pathToGDELT = parameters.get("path")
+    val country = parameters.get("country", "USA")
 
     val env = StreamExecutionEnvironment.getExecutionEnvironment
     env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime)
@@ -36,7 +35,8 @@ object FlinkScalaJob {
       .setParallelism(1)
 
     source.filter((event: GDELTEvent) => {
-        event.actor1Code_countryCode != null
+        event.actor1Code_countryCode != null &
+      event.actor1Code_countryCode == country
     }).assignTimestampsAndWatermarks(new BoundedOutOfOrdernessTimestampExtractor[GDELTEvent](Time.seconds(0)) {
       override def extractTimestamp(element: GDELTEvent): Long = {
         element.dateAdded.getTime
@@ -61,7 +61,7 @@ object FlinkScalaJob {
         }
     ).print
 
-    env.execute("GDELT Scala Analyzer")
+    env.execute("Flink Scala GDELT Analyzer")
 
   }
 

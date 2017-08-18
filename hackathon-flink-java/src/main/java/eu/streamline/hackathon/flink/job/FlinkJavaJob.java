@@ -5,31 +5,24 @@ import eu.streamline.hackathon.flink.operations.GDELTInputFormat;
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.FoldFunction;
 import org.apache.flink.api.java.functions.KeySelector;
-import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple4;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.core.fs.Path;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.functions.AssignerWithPeriodicWatermarks;
-import org.apache.flink.streaming.api.functions.AssignerWithPunctuatedWatermarks;
-import org.apache.flink.streaming.api.functions.timestamps.AscendingTimestampExtractor;
 import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor;
-import org.apache.flink.streaming.api.watermark.Watermark;
+import org.apache.flink.streaming.api.functions.windowing.WindowFunction;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
-import org.apache.flink.streaming.api.functions.windowing.WindowFunction;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
-import org.apache.hadoop.yarn.webapp.hamlet.Hamlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import javax.annotation.Nullable;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class FlinkJavaJob {
 
@@ -39,19 +32,19 @@ public class FlinkJavaJob {
 
 		ParameterTool params = ParameterTool.fromArgs(args);
 		final String pathToGDELT = params.get("path");
+		final String country = params.get("country", "USA");
 
 		final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 		env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
 		DataStream<GDELTEvent> source = env
-			.readFile(new GDELTInputFormat(new Path(pathToGDELT)), pathToGDELT).setParallelism(1)
-		;
+			.readFile(new GDELTInputFormat(new Path(pathToGDELT)), pathToGDELT).setParallelism(1);
 
 
 		source.filter(new FilterFunction<GDELTEvent>() {
 			@Override
 			public boolean filter(GDELTEvent gdeltEvent) throws Exception {
-				return gdeltEvent.actor1Code_countryCode != null;
+				return Objects.equals(gdeltEvent.actor1Code_countryCode, country);
 			}
 		}).assignTimestampsAndWatermarks(
 			new BoundedOutOfOrdernessTimestampExtractor<GDELTEvent>(Time.seconds(0)) {
@@ -82,7 +75,7 @@ public class FlinkJavaJob {
 
 
 		try {
-			env.execute("GDELT Analyzer Job");
+			env.execute("Flink Java GDELT Analyzer");
 		} catch (Exception e) {
 			LOG.error("Failed to execute Flink job {}", e);
 		}

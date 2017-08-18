@@ -30,14 +30,11 @@ public class SparkJavaJob {
     public static void main(String[] args) throws InterruptedException {
 
         ParameterTool params = ParameterTool.fromArgs(args);
-        // path to the file
         final String pathToGDELT = params.get("path");
-        // micro-batch-duration in milliseconds
         final Long duration = params.getLong("micro-batch-duration", 1000);
-
         final String country = params.get("country", "USA");
 
-        SparkConf conf = new SparkConf().setAppName("GDELT Spark Java Analyzer");
+        SparkConf conf = new SparkConf().setAppName("Spark Java GDELT Analyzer");
         String masterURL = conf.get("spark.master", "local[*]");
         conf.setMaster(masterURL);
 

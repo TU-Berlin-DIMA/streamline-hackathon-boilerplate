@@ -25,10 +25,14 @@ Briefly, you need to start Flink by executing:
 Then you can run those long-running jobs.
 ```
 # Java Job
-/path/to/flink/root/bin/flink run hackathon-flink-java/target/hackathon-flink-java-0.1-SNAPSHOT.jar --path /path/to/data/180-days.csv
+/path/to/flink/root/bin/flink run \
+hackathon-flink-java/target/hackathon-flink-java-0.1-SNAPSHOT.jar \
+--path /path/to/data/180-days.csv --coutnry USA
 
 # Scala Job
-/path/to/flink/root/bin/flink run hackathon-flink-scala/target/hackathon-flink-scala-0.1-SNAPSHOT.jar --path /path/to/data/180-days.csv
+/path/to/flink/root/bin/flink run \
+hackathon-flink-scala/target/hackathon-flink-scala-0.1-SNAPSHOT.jar \
+--path /path/to/data/180-days.csv --coutnry USA
 ```
 Please, note that those jobs will run forever. In order to shutdown the execution, you need to prompt
 ```
@@ -54,7 +58,8 @@ Then you can run those long-running jobs.
 --class eu.streamline.hackathon.spark.job.SparkJavaJob \
  hackathon-spark-java/target/hackathon-spark-java-0.1-SNAPSHOT.jar \
 --path /path/to/data/180-days.csv \
---micro-batch-duration 500
+--micro-batch-duration 5000
+--coutnry USA
 
 # Scala Job
 /path/to/spark/root/bin/spark-submit \
@@ -62,7 +67,9 @@ Then you can run those long-running jobs.
 --class eu.streamline.hackathon.spark.scala.job.SparkScalaJob \
 hackathon-spark-scala/target/hackathon-spark-scala-0.1-SNAPSHOT.jar \
 --path /path/to/data/180-days.csv \
---micro-batch-duration 500
+--micro-batch-duration 5000
+--coutnry USA
+
 ```
 
 To suppress the logs in when the Spark program is running simply rename the 

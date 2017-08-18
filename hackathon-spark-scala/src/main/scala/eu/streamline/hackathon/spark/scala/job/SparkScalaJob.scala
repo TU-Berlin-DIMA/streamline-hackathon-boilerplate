@@ -14,14 +14,11 @@ object SparkScalaJob {
   def main(args: Array[String]): Unit = {
 
     val params = ParameterTool.fromArgs(args)
-    // path to the file
     val pathToGDELT = params.get("path")
-    // micro-batch-duration in milliseconds
     val duration = params.getLong("micro-batch-duration", 1000)
-    // country for which to calculate the sum of average tone
     val country = params.get("country", "USA")
 
-    val conf = new SparkConf().setAppName("GDELT Spark Scala Analyzer")
+    val conf = new SparkConf().setAppName("Spark Scala GDELT Analyzer")
     val masterURL = conf.get("spark.master", "local[*]")
     conf.setMaster(masterURL)
 
