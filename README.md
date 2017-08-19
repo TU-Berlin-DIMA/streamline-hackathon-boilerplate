@@ -36,7 +36,7 @@ hackathon-flink-scala/target/hackathon-flink-scala-0.1-SNAPSHOT.jar \
 ```
 Please, note that those jobs will run forever. In order to shutdown the execution, you need to prompt
 ```
-/path/to/flink/root/bin/flink stop <jobID>
+/path/to/flink/root/bin/flink cancel <jobID>
 ```
 as explained here [3]
 
