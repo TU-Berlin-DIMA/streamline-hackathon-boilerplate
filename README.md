@@ -27,12 +27,12 @@ Then you can run those long-running jobs.
 # Java Job
 /path/to/flink/root/bin/flink run \
 hackathon-flink-java/target/hackathon-flink-java-0.1-SNAPSHOT.jar \
---path /path/to/data/180-days.csv --coutnry USA
+--path /path/to/data/180-days.csv --country USA
 
 # Scala Job
 /path/to/flink/root/bin/flink run \
 hackathon-flink-scala/target/hackathon-flink-scala-0.1-SNAPSHOT.jar \
---path /path/to/data/180-days.csv --coutnry USA
+--path /path/to/data/180-days.csv --country USA
 ```
 Please, note that those jobs will run forever. In order to shutdown the execution, you need to prompt
 ```
