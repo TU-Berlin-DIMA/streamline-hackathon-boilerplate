@@ -59,7 +59,7 @@ Then you can run those long-running jobs.
  hackathon-spark-java/target/hackathon-spark-java-0.1-SNAPSHOT.jar \
 --path /path/to/data/180-days.csv \
 --micro-batch-duration 5000
---coutnry USA
+--country USA
 
 # Scala Job
 /path/to/spark/root/bin/spark-submit \
@@ -68,7 +68,7 @@ Then you can run those long-running jobs.
 hackathon-spark-scala/target/hackathon-spark-scala-0.1-SNAPSHOT.jar \
 --path /path/to/data/180-days.csv \
 --micro-batch-duration 5000
---coutnry USA
+--country USA
 
 ```
 
